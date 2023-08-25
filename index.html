@@ -4,25 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>What do you want to eat??</title>
-    <script src="index.js"></script>
+    <script defer src="index.js"></script>
 </head>
 <body>
     <h1>What do you want to eat??</h1>
 
-    <div><h3>Breakfast ----> </h3> <span id="breakfast"></span></div> 
+    <div><h1>Breakfast <span id="breakfast"></span></h1></div> 
     <button id="breakfast_btn">Show</button>
     <br>
 
-    <div><h3>Lunch ----> </h3> <span id="lunch"></span></div> 
+    <div><h1>Lunch <span id="lunch"></span></h1></div> 
     <button id="lunch_btn">Show</button>
     <br>
 
-    <div><h3>Snacks ----> </h3> <span id="snacks"></span></div> 
+    <div><h1>Snacks <span id="snacks"></span></h1></div> 
     <button id="snacks_btn">Show</button>
     <br>
 
-    <div><h3>Dinner ----> </h3> <span id="dinner"></span></div> 
+    <div><h1>Dinner <span id="dinner"></span></h1></div> 
     <button id="dinner_btn">Show</button>
     <br>
+
+    <script>
+        const breakfast_btn = document.getElementById('breakfast_btn')
+        const lunch_btn = document.getElementById('lunch_btn')
+        const snacks_btn = document.getElementById('snacks_btn')
+        const dinner_btn = document.getElementById('dinner_btn')
+    
+        let breakfast_emoji = document.getElementById('breakfast')
+        let lunch_emoji = document.getElementById('lunch')
+        let snacks_emoji = document.getElementById('snacks')
+        let dinner_emoji = document.getElementById('dinner')
+    
+        const breakfast_emojis = ['🥐','🥯','🥞','🧇','🥓','🥚','🍳','🥣','🍩']
+        const lunch_emojis = ['🍖','🍗','🍕','🍚','🍜','🍔','🌭','🥗','🥙','🌯','🥩','🍠','🥡','🍱','🍙','🍤','🦪','🍛','🍥','🥘','🍲','🍝']
+        const snacks_emojis = ['🍔','🍟','🍿','🍕','🥨','🥯','🥪','🥟','🍢','🧆','🥧','🍦','🍰','🍪','🍩','🍮','🍡','🍭','🍫','🥛','🧃','☕','🍵','🍯','🧋']
+        const dinner_emojis = lunch_emojis
+    
+        const get_random_emoji = (emojis) => {
+            return Math.floor(Math.random() * emojis.length)
+        }
+    
+        breakfast_btn.addEventListener('click', () =>{
+            breakfast_emoji.innerHTML = breakfast_emojis[get_random_emoji(breakfast_emojis)]
+        })
+    
+        lunch_btn.addEventListener('click', () =>{
+            lunch_emoji.innerHTML = lunch_emojis[get_random_emoji(lunch_emojis)]
+        })
+    
+        snacks_btn.addEventListener('click', () =>{
+            snacks_emoji.innerHTML = snacks_emojis[get_random_emoji(snacks_emojis)]
+        })
+    
+        dinner_btn.addEventListener('click', () =>{
+            dinner_emoji.innerHTML = dinner_emojis[get_random_emoji(dinner_emojis)]
+        })
+    </script>
 </body>
 </html>
