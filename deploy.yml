@@ -1,0 +1,54 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  environmentName: 'dev'
+
+stages:
+- stage: Artifact 
+  displayName: Artifact Stage
+  jobs:  
+  - job: Create_ZIP_artifact 
+    displayName: Create ZIP artifact
+    steps:
+    - task: ArchiveFiles@2
+      displayName: 'Archive files'
+      inputs:
+        rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+        replaceExistingArchive: true
+    - upload: $(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip
+      artifact: drop
+
+# NGINX web server will behave as a reverse proxy to direct http requests to our express web app on port 3000. We have already created a config file for the same. 
+- stage: Deploy
+  displayName: Deploy Stage
+  jobs:
+  - deployment: VMDeploy
+    displayName: Web deploy
+    environment:
+      name: $(environmentName)
+      resourceName: 'dev-vm'
+      resourceType: VirtualMachine
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: Bash@3
+            inputs:
+              targetType: 'inline'
+              script: |
+                echo Deployment has started 🚀
+                unzip -o '$(Pipeline.Workspace)/drop/*.zip' -d '/home/azureuser/myapp'
+        on:
+          failure:
+            steps:
+            - script: echo Deployment failed!!!
+          success:
+            steps:
+            - script: echo Deployment successful!!!
